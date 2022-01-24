@@ -17,8 +17,14 @@
         <td><%= restaurant.name %></td>
         <td><%= restaurant.user_id %></td>
         <td><%= link_to 'Show', restaurant %></td>
-        <td><%= link_to 'Edit', edit_restaurant_path(restaurant) %></td>
-        <td><%= link_to 'Destroy', restaurant, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <%# pundit vs user == restaurant.user, might as well use pundit if app uses it, policy may get more complicated %>
+        <%# calling policy on instance of each restaurant and calling edit function %>
+        <% if policy(restaurant).edit? %>
+          <td><%= link_to 'Edit', edit_restaurant_path(restaurant) %></td>
+        <% end %>
+        <% if policy(restaurant).destroy? %>
+          <td><%= link_to 'Destroy', restaurant, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
@@ -26,4 +32,7 @@
 
 <br>
 
-<%= link_to 'New Restaurant', new_restaurant_path %>
+<%# call class if not in an iteration %>
+<% if policy(Restaurant).new? %>
+  <%= link_to 'New Restaurant', new_restaurant_path %>
+<% end %>

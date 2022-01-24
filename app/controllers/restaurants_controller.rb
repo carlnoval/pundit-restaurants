@@ -4,6 +4,8 @@ class RestaurantsController < ApplicationController
   # GET /restaurants
   def index
     @restaurants = Restaurant.all
+    # policy_scope calls Scope::resolve inside restaurant_policy, it is the way how pundit is written
+    @restaurants = policy_scope(Restaurant).order(created_at: :desc)
   end
 
   # GET /restaurants/1
@@ -13,6 +15,8 @@ class RestaurantsController < ApplicationController
   # GET /restaurants/new
   def new
     @restaurant = Restaurant.new
+    # pundit: looks into the restaurant_policy.rb and looks for `new?`
+    authorize @restaurant
   end
 
   # GET /restaurants/1/edit
@@ -25,6 +29,8 @@ class RestaurantsController < ApplicationController
     # added manually not by scaffold
     @restaurant.user = current_user
 
+    # pundit: looks into the restaurant_policy.rb and looks for `create?`
+    authorize @restaurant
     if @restaurant.save
       redirect_to @restaurant, notice: 'Restaurant was successfully created.'
     else
@@ -51,6 +57,7 @@ class RestaurantsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_restaurant
       @restaurant = Restaurant.find(params[:id])
+      authorize @restaurant
     end
 
     # Only allow a list of trusted parameters through.
