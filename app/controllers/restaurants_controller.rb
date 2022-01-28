@@ -1,4 +1,7 @@
 class RestaurantsController < ApplicationController
+  # uncomment to enable: pundit will not take effect for the specified controller method
+  # skip_before_action :authenticate_user!, only: [ :show ]
+
   before_action :set_restaurant, only: [:show, :edit, :update, :destroy]
 
   # GET /restaurants

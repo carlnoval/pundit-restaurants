@@ -19,7 +19,7 @@
         <td><%= link_to 'Show', restaurant %></td>
         <%# pundit vs user == restaurant.user, might as well use pundit if app uses it, policy may get more complicated %>
         <%# calling policy on instance of each restaurant and calling edit function %>
-        <% if policy(restaurant).edit? %>
+        <% if policy(restaurant).update? %>
           <td><%= link_to 'Edit', edit_restaurant_path(restaurant) %></td>
         <% end %>
         <% if policy(restaurant).destroy? %>
@@ -32,7 +32,7 @@
 
 <br>
 
-<%# call class if not in an iteration %>
+<%# call class if not in an iteration like with edit and destroy above %>
 <% if policy(Restaurant).new? %>
   <%= link_to 'New Restaurant', new_restaurant_path %>
 <% end %>

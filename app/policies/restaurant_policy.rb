@@ -1,6 +1,7 @@
 # rails g pundit:policy restaurant
 class RestaurantPolicy < ApplicationPolicy
-  # this errors out because: 
+  # this errors out because: https://lewagon-alumni.slack.com/archives/C02E1AF86NQ/p1643033944158700?thread_ts=1642982406.153900&cid=C02E1AF86NQ
+  # Yann: `action are only controller methods not policy ones`
   # before_action :creator_or_admin, only: [:update?, :destroy?]
 
   class Scope < Scope
@@ -15,7 +16,7 @@ class RestaurantPolicy < ApplicationPolicy
   end
 
   # method no longer needed
-  # reason: `new?` exists application_policy and calls the `create?` method that lives in this file
+  # reason: `new?` exists in application_policy and calls the `create?` method that lives in this file
   # def new?
   #   true
   # end
